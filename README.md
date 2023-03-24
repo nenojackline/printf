@@ -1,5 +1,5 @@
 # Write your own custom printf?
-```_printf``` is a custom implementation of the C programming function ```printf```. This project is an application of the C programming knowledge that ALX software engineering program cohort four students have learned since starting the program on 24 April 2022
+```_printf``` is a custom implementation of the C programming function ```printf```. This project is an application of the C programming knowledge that ALX software engineering program 
 ## General Requirements
 
    * Allowed editors: vi, vim, emacs
