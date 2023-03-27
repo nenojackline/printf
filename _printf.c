@@ -1,49 +1,66 @@
 #include "main.h"
+
+void print_buffer(char buffer[], int *buff_ind);
+
 /**
-  * _printf - function that prints based on format specifier
-  * @format: takes in format specifier
-  * Return: return pointer to index
-  */
+ * _printf - Printf function
+ * @format: format.
+ * Return: Printed chars.
+ */
 int _printf(const char *format, ...)
 {
-	char buffer[1024];
-	int i, j = 0, a = 0, *index = &a;
-	va_list valist;
-	vtype_t spec[] = {
-		{'c', format_c}, {'d', format_d}, {'s', format_s}, {'i', format_d},
-		{'u', format_u}, {'%', format_perc}, {'x', format_h}, {'X', format_ch},
-		{'o', format_o}, {'b', format_b}, {'p', format_p}, {'r', format_r},
-		{'R', format_R}, {'\0', NULL}
-	};
-	if (!format)
+	int i, printed = 0, printed_chars = 0;
+	int flags, width, precision, size, buff_ind = 0;
+	va_list list;
+	char buffer[BUFF_SIZE];
+
+	if (format == NULL)
 		return (-1);
-	va_start(valist, format);
-	for (i = 0; format[i] != '\0'; i++)
+
+	va_start(list, format);
+
+	for (i = 0; format && format[i] != '\0'; i++)
 	{
-		for (; format[i] != '%' && format[i] != '\0'; *index += 1, i++)
+		if (format[i] != '%')
 		{
-			if (*index == 1024)
-			{	_write_buffer(buffer, index);
-				reset_buffer(buffer);
-				*index = 0;
-			}
-			buffer[*index] = format[i];
+			buffer[buff_ind++] = format[i];
+			if (buff_ind == BUFF_SIZE)
+				print_buffer(buffer, &buff_ind);
+			/* write(1, &format[i], 1);*/
+			printed_chars++;
 		}
-		if (format[i] == '\0')
-			break;
-		if (format[i] == '%')
-		{	i++;
-			for (j = 0; spec[j].tp != '\0'; j++)
-			{
-				if (format[i] == spec[j].tp)
-				{	spec[j].f(valist, buffer, index);
-					break;
-				}
-			}
+		else
+		{
+			print_buffer(buffer, &buff_ind);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i, list);
+			precision = get_precision(format, &i, list);
+			size = get_size(format, &i);
+			++i;
+			printed = handle_print(format, &i, list, buffer,
+				flags, width, precision, size);
+			if (printed == -1)
+				return (-1);
+			printed_chars += printed;
 		}
 	}
-	va_end(valist);
-	buffer[*index] = '\0';
-	_write_buffer(buffer, index);
-	return (*index);
+
+	print_buffer(buffer, &buff_ind);
+
+	va_end(list);
+
+	return (printed_chars);
+}
+
+/**
+ * print_buffer - Prints the contents of the buffer if it exist
+ * @buffer: Array of chars
+ * @buff_ind: Index at which to add next char, represents the length.
+ */
+void print_buffer(char buffer[], int *buff_ind)
+{
+	if (*buff_ind > 0)
+		write(1, &buffer[0], *buff_ind);
+
+	*buff_ind = 0;
 }
