@@ -93,13 +93,13 @@ int main(void)
 - [x] [Handle conversion specifier ```S```](./print_custom.c).
 - [x] [Handle conversion specifier ```p```](./print_address.c).
 - [x] [Handle flag characters ```+```, space, and ```#``` for non-custom conversion specifiers](./get_flag.c).
-- [ ] Handle length modifiers ```l``` and ```h``` for non-custom conversion specifiers.
-- [ ] Handle the field width for non-custom conversion specifiers.
-- [ ] Handle the precision for non-custom conversion specifiers.
-- [ ] Handle the ```0``` flag character for non-custom conversion specifiers.
+- [x] Handle length modifiers ```l``` and ```h``` for non-custom conversion specifiers.
+- [x] Handle the field width for non-custom conversion specifiers.
+- [x] Handle the precision for non-custom conversion specifiers.
+- [x] Handle the ```0``` flag character for non-custom conversion specifiers.
 - [x] [Handle the custom conversion specifier ```r``` that prints the reversed string](./print_custom.c).
 - [x] [Handle the custom conversion specifier ```R``` that prints the rot13'ed string](./print_custom.c).
-- [ ] All above options should work well together.
+- [x] All above options should work well together.
 
 ## Examples
 
